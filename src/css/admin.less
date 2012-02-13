@@ -1,0 +1,620 @@
+// Base Variables
+//    => target ÷ context = result
+// 単位は変数のほうに付与する
+
+// @example: 13 / 16em = 0.8125em
+@baseFontSize: 16em;
+
+// @example: 300 / 9.6% = 31.25%
+@baseWidth: 9.6%;        // 96% convert to '0.xx... => xx%' 960px基準と仮定
+
+/* - - - - - - - - - - */
+
+// Color Variables
+
+@linkColor: #cb2027;
+@bgColor  : #f7f5f5;
+
+/* - - - - - - - - - - */
+
+// Vendor Prefix
+// Firefox3.6~ Safari5.0~ Opera 11~ IE8~
+// http://blog.we-boxes.com/cording/need-for-css3-vendor-prefix/
+
+.gradient-background (@direction: left, @start: rgb(255,255,255) 0%, @end: rgb(246,246,246) 100%) {
+    background-image: linear-gradient(@direction, @start, @end);
+    background-image: -webkit-linear-gradient(@direction, @start, @end);
+    background-image: -moz-linear-gradient(@direction, @start, @end);
+    background-image: -ms-linear-gradient(@direction, @start, @end);
+    background-image: -o-linear-gradient(@direction, @start, @end);
+}
+
+.box-sizing (@sizing: border-box) {
+    box-sizing: @sizing;
+    -webkit-box-sizing: @sizing;
+    -moz-box-sizing: @sizing;
+}
+.box-shadow (@x, @y, @blur, @color) {
+    -webkit-box-shadow: @x @y @blur @color;
+    -moz-box-shadow: @x @y @blur @color;
+    box-shadow: @x @y @blur @color;
+}
+.box-inset-shadow (@x, @y, @blur, @color) {
+    -webkit-box-shadow: inset @x @y @blur @color;
+    -moz-box-shadow: inset @x @y @blur @color;
+    box-shadow: inset @x @y @blur @color;
+}
+.border-radius (@r) {
+    -moz-border-radius: @r;
+    border-radius: @r;
+}
+
+.transparent-border () {
+    border: 1px dotted @bgColor;
+}
+
+.font-family-sans () {
+    font-family: Calibri, Optima, "メイリオ", Meiryo, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Arial, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+}
+
+.font-family-serif () {
+    font-family: "ヒラギノ明朝 Pro W3", "Hiragino Mincho Pro", "Times New Roman", "ＭＳ Ｐ明朝", "MS PMincho", serif;
+}
+
+/**
+ * 基本要素 =========================================================================
+ */
+
+body {
+    .font-family-sans();
+    color: #333;
+    background: @bgColor;
+}
+
+h1, h2, h3 {
+    text-shadow: #fff 0 1px 0;
+}
+
+h3 {
+    font-size: 130%;
+}
+
+a {
+    text-decoration: none;
+    transition: background-color linear 0.1s, border linear 0.1s;
+    -webkit-transition: background-color linear 0.1s, border linear 0.1s;
+    -moz-transition: background-color linear 0.1s, border linear 0.1s;
+    -ms-transition: background-color linear 0.1s, border linear 0.1s;
+    -o-transition: background-color linear 0.1s, border linear 0.1s;
+
+    &:link {
+        color: @linkColor;
+    }
+    &:visited {
+        color: @linkColor;
+    }
+    &:hover {
+        color: @linkColor;
+    }
+    &:active {
+        text-shadow: 0 1px 0 #ccc;
+    }
+}
+
+/**
+ * レイアウト =========================================================================
+ */
+
+// DESIGN BLOGART GALLERYCOMIC STRIPS Perfect multi-column CSS liquid layouts
+// http://matthewjamestaylor.com/blog/perfect-multi-column-liquid-layouts
+
+// liquidity customized
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+#colMask {
+    width:100%;
+    height: 100%;
+    clear:both;
+    float:left;
+    position:relative;
+    overflow:hidden;
+}
+
+#colBg {
+    width: 100%;
+    height: 100%;
+    float: left;
+    position:relative;
+    right: 800/@baseWidth;
+    background: rgba(230, 222, 222, 0.9);
+}
+
+#container {
+    width: 800/@baseWidth;
+    height: 100%;
+    float: left;
+    position: relative;
+    left: 960/@baseWidth;
+    overflow:auto;
+}
+
+#nav {
+    width: 160/@baseWidth;
+    height: 100%;
+    float:left;
+    position:relative;
+    left: 0;
+    overflow:auto;
+}
+
+/**
+ * ナビゲーション =========================================================================
+ */
+
+#header,
+#main,
+#footer {
+    padding: 0 24/@baseWidth;
+}
+
+#header {
+    width: 800/@baseWidth;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1024;
+    color: #fff;
+    font-weight: normal;
+    background: rgba(0, 0, 0, 0.73);
+
+    h1 {
+        margin: 0;
+        padding: 0.7em 24/@baseWidth;
+        text-shadow: 0 1px 0 #000;
+        font-size: 18/@baseFontSize;
+        font-weight: normal;
+    }
+}
+    #quickNav {
+        position: absolute;
+        top: 6px;
+        right: 24/@baseWidth;
+        padding: 0;
+
+        font-size: 10px;
+        text-align: right;
+    }
+        .quickNavSelect {
+            display: inline;
+            margin-right: 5px;
+
+            font-size: 14px;
+        }
+        .quickNavSelect select {
+            width: 150px;
+        }
+
+#main {
+    padding-top: 3em;
+
+    h2 {
+        font-size: 24/@baseFontSize;
+        padding: 0.3em 0.5em;
+        .border-radius(5px);
+        background: #dedede;
+    }
+    h3 {
+        margin: 0;
+        padding: 0.5em 0;
+        font-size: 18/@baseFontSize;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        /*border: 1px solid #aaa;*/
+        /*border-bottom: none;*/
+        /*color: #fff;*/
+        /*text-shadow: 0 1px 0 #555;*/
+        /*background: #777;*/
+    }
+    ul {
+        padding: 0;
+        list-style-type: none;
+    }
+    label {
+        cursor: pointer;
+    }
+    input {
+        margin: 0.5em 0;
+    }
+    textarea,
+    input[type="text"] {
+        margin: 0 0.5em 0 0;
+        padding: 0.5em;
+        border: 1px solid #ccc;
+        .border-radius(3px);
+    }
+    input[name^="sort"] {
+        width: 30px;
+        margin: 0;
+    }
+}
+    .filter {
+        padding: 1em;
+        margin-bottom: 1em;
+        position: relative;
+        overflow: hidden;
+        font-size: 14/@baseFontSize;
+        color: #fff;
+        .border-radius(3px);
+        background: rgba(66, 66, 66, 0.8);
+        .js-placeholder {
+            width: 70%;
+            margin: 0.5em !important;
+        }
+        .button {
+            position: absolute;
+            top: 50%;
+            right: 1.5em;
+            margin-top: -17px !important;
+        }
+    }
+    #js_systemBtnTo {
+        position: fixed;
+        top: 45px;
+        right: 24/@baseWidth;
+        z-index: 1024;
+        padding: 0.3em 1em;
+
+        background: rgba(128, 128, 128, 0.8);
+        .box-shadow(0, 0, 7px, #fff);
+        color: #fff;
+
+    }
+
+    ul#topicpath {
+        overflow: hidden;
+        padding-bottom: 0.5em;
+        border-bottom: 1px solid #ccc;
+        li {
+            float: left;
+        }
+    }
+
+    .controlMenu {
+        margin-bottom: 1em;
+    }
+
+    .posCounter {
+        float: left;
+    }
+
+    .pager {
+        float: right;
+        padding: 0;
+        text-align: right;
+        font-size: 15/@baseFontSize;
+        line-height: 1;
+        li {
+            display: inline-block;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-bottom: none;
+
+            a {
+                padding: 5px 10px;
+                display: block;
+                &:hover {
+                    background-color: rgba(230, 222, 222, 0.9);
+                }
+            }
+        }
+        .cur {
+            span {
+                padding: 5px 10px;
+                display: block;
+                background-color: #eee;
+            }
+        }
+    }
+    .prev {
+        margin-right: 1em;
+    }
+    .next {
+        margin-left: 1em;
+    }
+
+    h3 + .adminTable {
+        margin-top: 0;
+    }
+    .adminTable {
+        clear: both;
+        width: 100%;
+        margin: 1em 0 2em;
+        border-collapse: collapse;
+        border-top: 1px solid #aaa;
+
+        tr {
+            border-bottom: 1px solid #ccc;
+            cursor: pointer;
+            &:hover {
+                background-color: rgba(196, 196, 196, 0.2);
+            }
+        }
+        th {
+            padding: 0.5em;
+            font-size: 12/@baseFontSize;
+        }
+        th {
+            text-align: left;
+            background: #ddd;
+        }
+        td {
+            padding: 0.5em 0.5em;
+            font-size: 13/@baseFontSize;
+            strong {
+                font-size: 18/@baseFontSize;
+                font-weight: normal;
+            }
+        }
+        &.js_wide {
+            border-top: none;
+            tr {
+                border-bottom: none;
+            }
+            .systemBtn {
+                text-align: center;
+    
+                .button {
+                    width: 50%;
+                    font-weight: bold;
+                    border: 1px solid #999;
+                }
+            }
+        }
+    }
+
+    .adminTable.adminTableY {
+        th {
+            width: 25%;
+            padding: 0.5em 1em;
+        }
+        td {
+            padding: 0.5em 1em;
+        }
+    }
+
+#footer {
+    margin-top: 1em;
+    clear: both;
+    p {
+        padding: 1em 0;
+        margin: 0;
+    }
+}
+
+#colBg {
+    .box-shadow(1px, 0, 0, #eee);
+}
+
+#nav {
+
+    h2 {
+        margin: 0;
+        margin-bottom: 1em;
+        padding: 0;
+        font-size: 18/@baseFontSize;
+        font-weight: normal;
+        color: #fff;
+        text-shadow: 0 1px 0 #000;
+        background: rgba(0, 0, 0, 0.7);
+        a {
+            display: block;
+            padding: 0.7em 1em;
+
+            color: #fff;
+            &:hover {
+                color: @bgColor;
+            }
+            &:active {
+                text-shadow: none;
+            }
+        }
+    }
+
+    h3 {
+        margin: 1em 0.5em 0;
+        font-size: 13/@baseFontSize;
+    }
+
+    ul {
+        font-size: 14/@baseFontSize;
+        margin: 0;
+        padding: 0;
+        border-top: 1px solid rgba(200, 196, 196, 1);
+    }
+
+    li {
+        border-bottom: 1px solid rgba(200, 196, 196, 1);
+        font-weight: bold;
+        text-shadow: 0 1px 0 #fff;
+        a {
+            display: block;
+            padding: 0.3em 1.5em;
+
+            &.js_active,
+            &:hover {
+                color: #fff;
+                text-shadow: 0 1px 5px #000;
+                background-color: @linkColor;
+            }
+            &:active {
+                opacity: 0.9;
+                text-shadow: none;
+                .box-inset-shadow(0, 0, 3px, #aaa);
+            }
+        }
+    }
+}
+
+/**
+ * コンフィグ =========================================================================
+ */
+
+#main .configHeading {
+    margin-top: 1em;
+    /*margin: 1em 0 0.5em;*/
+}
+
+.configIndex {
+
+    .indexListItem {
+        width: 32%;
+        margin: 0 1% 0.5em 0;
+        float: left;
+        a {
+            display: block;
+            padding: 0.3em 0.5em;
+            padding-top: 0.7em;
+            overflow: hidden;
+
+            font-size: 14/@baseFontSize;
+            line-height: 1;
+            border: 2px solid transparent;
+            .border-radius(3px);
+            &:hover {
+                border: 2px solid #aaa;
+                background: rgba(128, 128, 128, 0.1);
+            }
+            &:active {
+                border: 2px solid #ccc;
+                background: rgba(128, 128, 128, 0.05);
+                .box-inset-shadow(0, 1px, 3px, #fff);
+            }
+        }
+        img {
+            width: 30px;
+            height: 30px;
+            margin-top: -0.3em;
+            margin-right: 0.5em;
+            vertical-align: middle;
+            .border-radius(30px);
+        }
+    }
+}
+#js-index_list_tabs {
+    display: none !important;
+}
+
+/**
+ * タグリスト =========================================================================
+ */
+
+#tagList {
+    li {
+        width: 19%;
+        height: 20px;
+        padding: 0.3em 0.5%;
+        float: left;
+        a {
+            font-size: 13/@baseFontSize;
+        }
+    }
+}
+
+/**
+ * ダッシュボード =========================================================================
+ */
+
+.dashboardContents {
+    margin: 1em 0;
+    h3 {
+        margin: 0;
+        padding-bottom: 0.3em;
+        color: #555;
+    }
+    table {
+        margin: 0 2% 2em;
+        width: 96%;
+        &.double {
+            float: left;
+            width: 46%;
+        }
+    }
+    tr {
+        border-bottom: 1px solid #ccc;
+    }
+    td {
+        padding: 0.5em;
+    }
+}
+
+// フロート解除
+.clear {
+    clear: both !important;
+}
+// フロート解除(不可視)(予備)
+.clearHidden {
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    border: none;
+}
+// フロート解除(不可視)
+.clearfix:after {
+    clear: both;
+    display: block;
+    visibility: hidden;
+    height: 0;
+    content: ".";
+}
+.clearfix {
+    _display: inline-table;
+    zoom: 1;
+}
+
+// フォームの警告表示
+.validator-result-, .validator-result-1 {
+	display: none;
+}
+
+.validator-result-error, .validator-result-0 {
+	display: block;
+	color: red;
+}
+
+p.transaction-notice- {
+	display: none;
+}
+
+p.transaction-notice-error {
+	color: red;
+}
+
+
+// ショートカットのツールチップ(ページ上では非表示)
+dl#tooltip {
+	display: none;
+}
+
+#js-tooltip {
+    padding: 0.5em 1em;
+    border: 1px solid #999999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 320px;
+    background: #f0f0f0;
+    text-align: left;
+    visibility: hidden;
+}
+.tooltipIcon {
+    margin-left: 0.3em;
+}
+

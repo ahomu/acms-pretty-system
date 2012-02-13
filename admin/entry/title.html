@@ -1,0 +1,18 @@
+<!-- BEGIN adminEntryTitle -->
+<div class="titleWrapper"><!-- BEGIN header#insert -->
+	<h2>エントリー作成</h2><!-- END header#insert --><!-- BEGIN header#update -->
+	<h2>エントリー変更</h2><!-- END header#update --><!-- BEGIN header#result -->
+	<h2>【保存しました】{adminTitle}</h2><!-- END header#result --><!-- BEGIN description#insert -->
+	<p>内容を入力し、「作成」ボタンを押してください。</p><!-- END description#insert --><!-- BEGIN description#update -->
+	<p>内容を変更し、「保存」ボタンを押してください。</p><!-- END description#update -->
+</div>
+<!-- END adminEntryTitle -->
+<script type="text/javascript">
+window.onpopstate = function(e) {
+    // davisにpushStateされたものであれば，遷移を強制する
+    if(e.state && e.state._davis) {
+        location.href = location.href;
+    }
+};
+</script>
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<link rel="canonical" href="%{PERMALINK}">
+<meta charset="utf-8">
+<meta name="author" content="ayumusato">
+<link href="src/css/normilize.css" rel="stylesheet" media="all">
+<link href="src/css/gh-buttons.css" rel="stylesheet" media="all">
+<link href="src/css/admin.less" rel="stylesheet/less" media="all">
+<title>管理ページ::%{BLOG_NAME}</title>
+<!--[if lte IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]--><!-- BEGIN_MODULE Js -->
+<script type="text/javascript" src="/index.js{arguments}" charset="UTF-8" id="acms-js"></script><!-- END_MODULE Js -->
+<script type="text/javascript" src="src/js/less-1.2.1.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="src/js/davis/davis.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="src/js/davis/davis.title.js" charset="UTF-8"></script>
+<script type="text/javascript" src="src/js/davis/davis.hashRouting.js" charset="UTF-8"></script>
+<script type="text/javascript" src="src/js/admin.js" charset="UTF-8"></script>
+</head>
+<body>
+<div id="colMask">
+<div id="colBg">
+    <div id="container">
+    
+        <header id="header">
+            <h1 id="siteTitle">%{BLOG_NAME}</h1>
+            <nav id="quickNav">
+                <form action="" method="post" class="quickNavSelect">
+                <!-- BEGIN_MODULE Admin_Shortcut_List -->
+                <select>
+                    <option value="">ショートカット</option><!-- BEGIN shortcut:loop -->
+                    <option value="{url}">{name}</option><!-- END shortcut:loop -->
+                </select>
+                <!-- END_MODULE Admin_Shortcut_List -->
+                </form>
+    
+                <form action="" method="post" class="quickNavSelect">
+                <!-- BEGIN_MODULE Admin_Blog_SelectGlobal -->
+                <select name="bid">
+                    <option value="">他ブログに移動する</option><!-- BEGIN loop -->
+                    <option value="%{HTTP_ROOT}bid/{value}/admin/top/">{indent}[raw]{label}[trim(24, '...')]</option><!-- END loop -->
+                </select>
+                <!-- END_MODULE Admin_Blog_SelectGlobal -->
+                </form>
+    
+                <form action="" method="post" class="quickNavSelect">
+                    <button class="button icon log" onclick="return confirm('ログアウトしてもよろしいですか？');">ログアウト</button>
+                    <input type="hidden" name="ACMS_POST_Logout" />
+                </form>
+            </nav>
+        </header>
+    
+        <section id="main">
+        <!--#include file="/admin/%{ADMIN_PATH}.html"-->
+        </section>
+    
+        <footer id="footer">
+            <p id="copyright">Powerd by "a-blog cms" ver%{VERSION}.</p>
+        </footer>
+    
+    </div>
+    
+    <!-- BEGIN_MODULE Admin_Menu -->
+    <nav id="nav">
+        <h2><a href="/bid/%{BID}/admin/top/">管理ページ</a></h2>
+        <h3>サイト</h3>
+        <ul>
+            <!-- BEGIN blog#index --><li><a href="{url}">ブログ</a></li><!-- END blog#index -->
+            <!-- BEGIN alias#index --><li><a href="{url}">エイリアス</a></li><!-- END alias#index -->
+            <!-- BEGIN user#index --><li><a href="{url}">ユーザー</a></li><!-- END user#index -->
+        </ul>
+        <h3>コンテンツ</h3>
+        <ul>
+            <!--<li><a href="%{BASE_URL}bid/%{BID}/admin/entry-edit/">新規エントリー</a></li>-->
+            <!-- BEGIN entry#index --><li><a href="{url}">エントリー</a></li><!-- END entry#index -->
+            <!-- BEGIN category#index --><li><a href="{url}">カテゴリー</a></li><!-- END category#index -->
+            <!-- BEGIN tag --><li><a href="{url}">タグ</a></li><!-- END tag -->
+        </ul>
+        <h3>コンフィグ</h3>
+        <ul>
+            <!-- BEGIN config#index --><li><a href="{url}">デフォルト</a></li><!-- END config#index -->
+            <!-- BEGIN module#index --><li><a href="{url}">モジュールID</a></li><!-- END module#index -->
+            <!-- BEGIN rule#index --><li><a href="{url}">ルール</a></li><!-- END rule#index -->
+            <!-- BEGIN shortcut#index --><li><a href="{url}">ショートカット</a></li><!-- END shortcut#index -->
+        </ul>
+        <h3>サイト機能</h3>
+        <ul>
+            <!-- BEGIN form#index --><li><a href="{url}">フォーム</a></li><!-- END form#index -->
+            <!-- BEGIN schedule#index --><li><a href="{url}">スケジュール</a></li><!-- END schedule#index -->
+            <!-- BEGIN moblog#index --><li><a href="{url}">モブログ</a></li><!-- END moblog#index -->
+            <!-- BEGIN shop#menu --><li><a href="{url}">ショップ</a></li><!-- END shop#menu -->
+        </ul>
+        <h3>ユーティリティ</h3>
+        <ul>
+            <!-- BEGIN publish#index --><li><a href="{url}">パブリッシュ</a></li><!-- END publish#index -->
+            <!-- BEGIN backup#index --><li><a href="{url}">バックアップ</a></li><!-- END backup#index -->
+            <!-- BEGIN import#index --><li><a href="{url}">インポート</a></li><!-- END import#index -->
+        </ul>
+        <!--
+        <h3>レスポンス</h3>
+        <ul>
+            <!-- BEGIN comment --><li><a href="{url}">コメント</a></li><!-- END comment -->
+            <!-- BEGIN trackback --><li><a href="{url}">トラックバック</a></li><!-- END trackback -->
+        </ul>
+        -->
+    </nav>
+    <!-- END_MODULE Admin_Menu -->
+</div>
+</div>
+</body>
+</html>

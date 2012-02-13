@@ -1,0 +1,156 @@
+<div class="titleWrapper" style="margin-top: 2em">
+	<h2>ダッシュボード</h2>
+</div>
+
+<!-- BEGIN_MODULE Admin_Dashboard_ClearCache -->
+<section class="dashboardContents">
+	<h3>キャッシュファイル管理</h3>
+    <form action="" method="post">
+    <table class="center">
+        <tr>
+            <td>
+                {totalBins} ページ ( {totalBytes}B )
+            </td>
+            <td>
+                <input type="hidden" name="axis" value="self" />
+                <label>
+                    <input type="checkbox" name="axis" value="descendant-or-self" />
+                    子ブログも含める
+                </label>
+            </td>
+            <td>
+                <input type="hidden" name="delete" value="false" />
+                <label>
+                    <input type="checkbox" name="delete" value="true" />
+                    キャッシュを消去
+                </label>
+            </td>
+            <td>
+                <button class="button icon reload">リフレッシュ</button>
+                <input type="hidden" name="ACMS_POST_Cache" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</section>
+<!-- END_MODULE Admin_Dashboard_ClearCache -->
+
+<!-- BEGIN_MODULE Admin_Dashboard_DraftList -->
+<section class="dashboardContents">
+    <h3>下書き中のエントリー</h3>
+    <!-- BEGIN draft#notFound --><p>下書き中のエントリーは見つかりませんでした</p><!-- END draft#notFound -->
+    <table><!-- BEGIN entry:loop -->
+        <tr>
+            <td><a href="{entryUrl}">{title}</a></td>
+            <td><!-- BEGIN category:veil -->{categoryName}<!-- END category:veil --> </td>
+            <td>{userName}</td>
+            <td>{datetime}[datetime('Y-m-d H:i')]</td>
+            <td><a class="button icon edit" href="{editUrl}">編集</a></td>
+        </tr><!-- END entry:loop -->
+    </table>
+</section>
+<!-- END_MODULE Admin_Dashboard_DraftList -->
+
+<!-- BEGIN_MODULE Admin_Dashboard_ThemeChanger -->
+<section class="dashboardContents">
+    <h3>テーマの簡易切り替え</h3>
+    <form action="" method="post">
+    <table class="twin center">
+        <tr>
+            <td>
+                <select name="acms_config_theme"><!-- BEGIN theme:loop -->
+                    <option value="{theme}"{selected}>{label}</option><!-- END theme:loop -->
+                </select>
+            </td>
+            <td>
+                <input type="hidden" name="cookie[]" value="acms_config_theme" />
+                <button class="button icon loop">テーマの切り替え</button>
+                <input type="hidden" name="ACMS_POST_Cookie" />
+            </td>
+        </tr>
+    </table>
+    </form>
+</section>
+<!-- END_MODULE Admin_Dashboard_ThemeChanger -->
+
+<!-- BEGIN_MODULE Admin_Dashboard_PhpStatus -->
+<section class="dashboardContents">
+    <h3>サーバー設定・ライセンス</h3>
+    <table class="double"><!-- BEGIN memory_limit:veil -->
+        <tr>
+            <td>メモリー占有量の上限</td>
+            <td>{memory_limit}</td>
+        </tr><!-- END memory_limit:veil --><!-- BEGIN upload_max_filesize:veil -->
+        <tr>
+            <td>アップロード上限サイズ</td>
+            <td>{upload_max_filesize}</td>
+        </tr><!-- END upload_max_filesize:veil --><!-- BEGIN post_max_size:veil -->
+        <tr>
+            <td>POSTデータ上限サイズ</td>
+            <td>{post_max_size}</td>
+        </tr><!-- END post_max_size:veil --><!-- BEGIN max_file_uploads:veil -->
+        <tr>
+            <td>同時アップロード上限ファイル数</td>
+            <td>{max_file_uploads}</td>
+        </tr><!-- END max_file_uploads:veil --><!-- BEGIN safe_mode:veil -->
+        <tr>
+            <td>セーフモード</td>
+            <td>{safe_mode}</td>
+        </tr><!-- END safe_mode:veil --><!-- BEGIN php_version:veil -->
+        <tr>
+            <td>PHPのバージョン</td>
+            <td>{php_version}</td>
+        </tr><!-- END php_version:veil --><!-- BEGIN php_sapi:veil -->
+        <tr>
+            <td>PHP動作環境
+            </td>
+            <td>{php_sapi}</td>
+        </tr><!-- END php_sapi:veil --><!-- BEGIN mysql_version:veil -->
+        <tr>
+            <td>MySQLのバージョン</td>
+            <td>{mysql_version}</td>
+        </tr><!-- END mysql_version:veil -->
+    </table>
+<!-- END_MODULE Admin_Dashboard_PhpStatus -->
+
+<!-- BEGIN_MODULE Admin_Dashboard_LicenseStatus -->
+    <table class="double"><!-- BEGIN max:veil -->
+        <tr>
+            <td>ユーザーの上限</td>
+            <td><!-- BEGIN amount:veil -->{amount} / {max}<!-- END amount:veil --><!-- BEGIN unlimited -->無制限<!-- END unlimited --><!-- BEGIN trial -->(トライアル)<!-- END trial --></td>
+        </tr><!-- END max:veil --><!-- BEGIN end:veil -->
+        <tr>
+            <td>トライアル終了</td>
+            <td>{end}</td>
+        </tr><!-- END end:veil --><!-- BEGIN term:veil -->
+        <tr>
+            <td>トライアル期限</td>
+            <td>{term}</td>
+        </tr><!-- END term:veil --><!-- BEGIN domain -->
+        <tr>
+            <td>サブドメイン拡張</td>
+            <td>利用可能</td>
+        </tr><!-- END domain --><!-- BEGIN domain2 -->
+        <tr>
+            <td>独自ドメイン拡張</td>
+            <td>利用可能</td>
+        </tr><!-- END domain2 --><!-- BEGIN flash -->
+        <tr>
+            <td>flTopImage プラグイン</td>
+            <td>利用可能</td>
+        </tr><!-- END flash --><!-- BEGIN moblogPop -->
+        <tr>
+            <td>モブログ(Cron版) プラグイン</td>
+            <td>利用可能</td>
+        </tr><!-- END moblogPop --><!-- BEGIN shop -->
+        <tr>
+            <td>ショップ プラグイン</td>
+            <td>利用可能</td>
+        </tr><!-- END shop --><!-- BEGIN magazine -->
+        <tr>
+            <td>メールマガジン プラグイン</td>
+            <td>利用可能</td>
+        </tr><!-- END magazine -->
+    </table>
+</section>
+<!-- END_MODULE Admin_Dashboard_LicenseStatus -->
