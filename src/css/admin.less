@@ -212,13 +212,6 @@ html, body {
         margin: 0;
         padding: 0.5em 0;
         font-size: 18/@baseFontSize;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        /*border: 1px solid #aaa;*/
-        /*border-bottom: none;*/
-        /*color: #fff;*/
-        /*text-shadow: 0 1px 0 #555;*/
-        /*background: #777;*/
     }
     ul {
         padding: 0;
@@ -242,6 +235,20 @@ html, body {
         margin: 0;
     }
 }
+
+
+    ul#topicpath {
+        overflow: hidden;
+        padding-bottom: 0.5em;
+        border-bottom: 1px solid #ccc;
+        li {
+            float: left;
+        }
+    }
+
+    .controlMenu {
+        margin-bottom: 1em;
+    }
     .filter {
         padding: 1em;
         margin-bottom: 1em;
@@ -249,7 +256,7 @@ html, body {
         overflow: hidden;
         font-size: 14/@baseFontSize;
         color: #fff;
-        .border-radius(3px);
+        .border-radius(5px);
         background: rgba(66, 66, 66, 0.8);
         .js-placeholder {
             width: 70%;
@@ -273,19 +280,6 @@ html, body {
         .box-shadow(0, 0, 7px, #fff);
         color: #fff;
 
-    }
-
-    ul#topicpath {
-        overflow: hidden;
-        padding-bottom: 0.5em;
-        border-bottom: 1px solid #ccc;
-        li {
-            float: left;
-        }
-    }
-
-    .controlMenu {
-        margin-bottom: 1em;
     }
 
     .posCounter {
@@ -508,6 +502,16 @@ html, body {
 }
 #js-index_list_tabs {
     display: none !important;
+}
+
+.js_message {
+    display: none;
+    margin: 1em 0;
+    padding: 1em;
+    font-size: 16/@baseFontSize;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.7);
 }
 
 /**

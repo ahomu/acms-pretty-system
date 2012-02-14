@@ -5,12 +5,13 @@ AcmsAdmin = Davis(function() {
 
     this.use(Davis.title);
 
-    var $currMain ;
+    var $currMain, $container;
 
     /**
      * when start
      */
     this.bind('start', function() {
+        $container = $('#container');
         $currMain = $('#main');
     });
 
@@ -21,9 +22,14 @@ AcmsAdmin = Davis(function() {
 
     });
 
+    /**
+     * 通常のGET遷移
+     */
     this.get('/bid/:bid/admin/:path/', function(req) {
 
-        console.log(req, req.fullPath);
+        if (!!req.isForPageLoad) {
+            return;
+        }
 
         // ナビゲーション現在地
         activeNav(req.fullPath);
@@ -42,11 +48,13 @@ AcmsAdmin = Davis(function() {
                     $currMain.replaceWith($main);
                     $currMain = $main;
 
+                    $container.get(0).scrollTop = 0;
+
                     // Dispatchを適用
                     ACMS.Dispatch($currMain);
 
                     // Dispatchされたイベントを修正
-                    fixEvent($currMain);
+                    fixEvent($currMain, req.params.path);
                 } else {
                     // 管理ページ外とみなして転送
                     location.href = req.fullPath;
@@ -55,26 +63,45 @@ AcmsAdmin = Davis(function() {
         });
     });
 
-//    this.get(/.*/, function(req) {
-//        location.href = req.path;
-//    });
+    /**
+     * コンフィグ保存時のAjax処理
+     */
+    this.state('/config/save', function(req) {
 
-//    this.post(/.*/, function(req) {
-//        console.dir(req);
-//    });
+        $.ajax({
+            type: 'POST',
+            url: location.href,
+            data: req.params,
+            success: function(res) {
+                var $main      = $('#main'),
+                    $contents  = $main.find('.contents'),
+                    $message   = $('<div class="js_message">コンフィグを保存しました</div>');
+
+                $container.get(0).scrollTop = 0;
+                $contents.before($message);
+                $message.fadeIn('fast', function() {
+                    $message.delay(5000).fadeOut(100);
+                });
+            }
+        })
+    });
 
 });
 
 /**
- * jQuery
+ * jQueryいろいろ
  */
 jQuery(function() {
     var initPath;
 
     location.pathname.match(/admin\/(\w+)/);
     initPath = RegExp.$1;
+
+    activeNav(initPath+encodeURI(location.search));
+
     main($('#main'), initPath);
-    activeNav(initPath);
+
+    fixEvent($('#main'), initPath);
 
     $('.quickNavSelect').change(function () {
         var url = $(':selected', this).val();
@@ -86,9 +113,6 @@ jQuery(function() {
     $('.altSubmit').live('click', function () {
         $(this).prev().click();
     });
-//    $('.button').click(function() {
-//        $(this).closest('form').submit();
-//    });
 });
 
 /**
@@ -99,7 +123,7 @@ jQuery(function() {
  * @return void
  */
 function main($target, path) {
-    var $temp, i = 0, iz,
+    var $temp,
         $topicpath = $target.find('#topicpath'),
         $systembtn = $target.find('.systemBtn'),
         $systemtbl = $systembtn.closest('table'),
@@ -118,9 +142,6 @@ function main($target, path) {
 
     // 冗長タイトルを除去
     $target.find('h1').remove();
-
-    // トピックパスをタイトル(トピックパスの次の要素)の後に移動
-//    $topicpath.next().after($topicpath);
 
     // コントロール用のラッパをトピックパスの後に挿入
     $topicpath.next().after($menugroup);
@@ -147,10 +168,21 @@ function main($target, path) {
         $systemtbl.addClass('js_wide');
     }
 
+    // パスがなければここで終了 ===========================================================================================
     if (!path) {
         return;
     }
 
+    // コンフィグ詳細に一覧に戻るリンクを作成
+    if (path !== 'config_index' && path.indexOf('config') === 0) {
+        if (location.search.indexOf('mid') === -1) {
+            $menugroup.prepend('<a class="button icon arrowleft" href="/bid/'+ACMS.Config.bid+'/admin/config_index/'+encodeURI(location.search)+'">コンフィグの一覧に戻る</a>');
+        } else {
+            $menugroup.prepend('<a class="button icon arrowleft" href="/bid/'+ACMS.Config.bid+'/admin/module_index/">モジュールIDの一覧に戻る</a>');
+        }
+    }
+
+    // パスでswitch
     switch(path) {
         case 'alias_index':
         case 'user_index':
@@ -177,7 +209,7 @@ function main($target, path) {
 //                $temp.next().find('select').remove();
             }
 
-            $temp.next().find('[type="submit"]').css('display', 'none').removeClass('button').after('<a href="#" class="button icon add altSubmit">新規作成</a>');
+            $temp.next().find('[type="submit"]').css('display', 'none').removeClass('button').after('<a href="#" class="button icon add altSubmit">新規作成する</a>');
             $temp.next().find('form').prependTo($menugroup).css('display', 'inline');
             $temp.next().remove();
 
@@ -203,43 +235,51 @@ function main($target, path) {
  * @param {jQuery} $main
  * @return void
  */
-function fixEvent($main) {
+function fixEvent($main, path) {
     var $toggle = $main.find('[class*="-toggle-head"]');
 
     $toggle.unbind().click(function() {
         if (this.className.match(/(\w+)-toggle-head/) ) {
             $('.'+RegExp.$1+'-toggle-body').fadeToggle(200);
+            $toggle.toggleClass('active');
         }
         return false;
     });
+
+    if (path !== 'config_index' && path.indexOf('config') === 0) {
+        $main.find('form').bind('submit', function() {
+            AcmsAdmin.trans('/config/save', ACMS.Library.getPostData(this));
+            return false;
+        });
+    }
 }
 
 /**
  * 現在地をナビゲーションに表現する
  *
- * @param {String} path
+ * @param {String} pathAndSearch
  * @return void
  */
-function activeNav(path) {
+function activeNav(pathAndSearch) {
     var $nav    = $('#nav'),
         $anchor = $nav.find('a');
 
-    if (path.indexOf('mid=') !== -1) {
-        path = 'module';
+    if (pathAndSearch.indexOf('mid=') !== -1) {
+        pathAndSearch = 'module';
     }
-    else if (path.indexOf('rid=') !== -1) {
-        path = 'rule';
+    else if (pathAndSearch.indexOf('rid=') !== -1) {
+        pathAndSearch = 'rule';
     }
-    else if (path.indexOf('entry') !== -1) {
-        path = path.indexOf('edit') !== -1 ? 'entry-edit' : 'entry_index';
+    else if (pathAndSearch.indexOf('entry') !== -1) {
+        pathAndSearch = pathAndSearch.indexOf('config') !== -1 ? 'config' : 'entry';
     }
     else {
-        path = path.substr(0, path.indexOf('_'));
+        pathAndSearch = pathAndSearch.substr(0, pathAndSearch.indexOf('_'));
     }
 
-    if (!path) {
+    if (!pathAndSearch) {
         return;
     }
-    $anchor.not('[href*="'+path+'"]').removeClass('js_active');
-    $anchor.filter('[href*="'+path+'"]').addClass('js_active');
+    $anchor.not('[href*="'+pathAndSearch+'"]').removeClass('js_active');
+    $anchor.filter('[href*="'+pathAndSearch+'"]').addClass('js_active');
 }
