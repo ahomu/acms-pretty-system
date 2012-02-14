@@ -3,8 +3,6 @@
  */
 AcmsAdmin = Davis(function() {
 
-    this.use(Davis.title);
-
     var $currMain, $container;
 
     /**
