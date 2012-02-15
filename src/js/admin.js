@@ -144,8 +144,6 @@ function main($target, path) {
         $lasttd    = $target.find('.adminTable:not(.adminTableY) tr td:not(.systemBtn):last-child');
 
     if (0 < $lasttd.size()) {
-        // モジュールIDとルールの一覧で余分なデリミタ表記を除去
-        $lasttd.html($lasttd.first().html().replace('/ ', ''));
         // 編集リンクなどにアイコンを付加
         $lasttd.find('a').addClass('button icon edit');
     }
@@ -220,6 +218,12 @@ function main($target, path) {
 //                }
 //                console.log(entryAdd.firstChild.nodeType);
 //                $temp.next().find('select').remove();
+            }
+            else if ('rule_index' === path || 'module_index' === path) {
+                // モジュールIDとルールの一覧で余分なデリミタ表記を除去
+                $lasttd.each(function() {
+                    this.innerHTML = this.innerHTML.replace('/ ', '');
+                });
             }
 
             $temp.next().find('[type="submit"]').css('display', 'none').removeClass('button').after('<a href="#" class="button icon add altSubmit">新規作成する</a>');
