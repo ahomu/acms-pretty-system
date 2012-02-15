@@ -23,8 +23,47 @@ AcmsAdmin = Davis(function() {
     /**
      * 通常のGET遷移
      */
-    this.get('/bid/:bid/admin/:path/', function(req) {
+    this.get('/bid/:bid/admin/:path/', transitionPage);
+    this.get('/bid/:bid/cid/:cid/admin/:path/', transitionPage);
+    this.get('/bid/:bid/uid/:uid/admin/:path/', transitionPage);
+    this.get('/bid/:bid/tag/:tag/admin/:path/', transitionPage);
 
+    this.get('/bid/:bid/eid/:eid/admin/:path/', transferPage);
+    this.get('/bid/:bid/cid/:cid/eid/:eid/admin/:path/', transferPage);
+
+    /**
+     * コンフィグ保存時のAjax処理
+     */
+    this.state('/config/save', function(req) {
+
+        $.ajax({
+            type: 'POST',
+            url: location.href,
+            data: req.params,
+            success: function(res) {
+                var $main      = $('#main'),
+                    $contents  = $main.find('.contents'),
+                    $message   = $('<div class="js_message">コンフィグを保存しました</div>');
+
+                $container.get(0).scrollTop = 0;
+                $contents.before($message);
+                $message.fadeIn('fast', function() {
+                    $message.delay(5000).fadeOut(100);
+                });
+            }
+        })
+    });
+
+    function transferPage(req) {
+        location.href = req.fullPath;
+    }
+
+    /**
+     * ページ遷移
+     *
+     * @param req
+     */
+    function transitionPage(req) {
         if (!!req.isForPageLoad) {
             return;
         }
@@ -59,31 +98,7 @@ AcmsAdmin = Davis(function() {
                 }
             }
         });
-    });
-
-    /**
-     * コンフィグ保存時のAjax処理
-     */
-    this.state('/config/save', function(req) {
-
-        $.ajax({
-            type: 'POST',
-            url: location.href,
-            data: req.params,
-            success: function(res) {
-                var $main      = $('#main'),
-                    $contents  = $main.find('.contents'),
-                    $message   = $('<div class="js_message">コンフィグを保存しました</div>');
-
-                $container.get(0).scrollTop = 0;
-                $contents.before($message);
-                $message.fadeIn('fast', function() {
-                    $message.delay(5000).fadeOut(100);
-                });
-            }
-        })
-    });
-
+    }
 });
 
 /**
@@ -244,7 +259,11 @@ function fixEvent($main, path) {
         return false;
     });
 
-    if (path !== 'config_index' && path.indexOf('config') === 0) {
+    if (location.pathname.indexOf('/order/') !== -1) {
+        $toggle.click();
+    }
+
+    if (path !== void 0 && path !== 'config_index' && path.indexOf('config') === 0) {
         $main.find('form').bind('submit', function() {
             AcmsAdmin.trans('/config/save', ACMS.Library.getPostData(this));
             return false;
