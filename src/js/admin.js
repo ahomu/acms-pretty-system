@@ -201,6 +201,17 @@ function main($target, path) {
 
     // パスでswitch
     switch(path) {
+        case 'config_index':
+        case 'import_index':
+            $target.find('.indexListItem').each(function() {
+                $temp = $(this);
+                $temp.find('p').remove();
+                $temp.find('a').get(0).innerHTML += $temp.find('img').get(0).alt;
+            });
+
+            $target.find('.contents').addClass('configIndex');
+            $target.find('.dashboardContents > :first-child, .indexListCategory > :first-child').unwrap();
+        break;
         case 'alias_index':
         case 'user_index':
         case 'entry_index':
@@ -238,16 +249,23 @@ function main($target, path) {
 
             $temp.remove();
         break;
-        case 'config_index':
-        case 'import_index':
-            $target.find('.indexListItem').each(function() {
-                $temp = $(this);
-                $temp.find('p').remove();
-                $temp.find('a').get(0).innerHTML += $temp.find('img').get(0).alt;
-            });
+        case 'alias_edit':
+        case 'user_edit':
+        case 'category_edit':
+        case 'tag_edit':
+        case 'module_edit':
+        case 'rule_edit':
+        case 'form_edit':
+        case 'schedule_edit':
+        case 'moblog_edit':
+            var edit = path.substr(0, path.indexOf('_')),
+                title = $target.find('.titleWrapper h2').first().text().replace(/[詳細|変更]+/, '');
 
-            $target.find('.contents').addClass('configIndex');
-            $target.find('.dashboardContents > :first-child, .indexListCategory > :first-child').unwrap();
+            // (推定) 一覧ボタンを削除
+            $target.find('.adminBtn').last().remove();
+
+            // 一覧に戻るリンクを作成
+            $menugroup.prepend('<a class="button icon arrowleft" href="/bid/'+ACMS.Config.bid+'/admin/'+edit+'_index/">'+title+'の一覧に戻る</a>');
         break;
     }
 }
