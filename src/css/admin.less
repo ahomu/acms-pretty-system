@@ -236,7 +236,6 @@ html, body {
     }
 }
 
-
     ul#topicpath {
         overflow: hidden;
         padding-bottom: 0.5em;
@@ -280,6 +279,25 @@ html, body {
         .box-shadow(0, 0, 7px, #fff);
         color: #fff;
 
+    }
+
+    .js_message {
+        display: none;
+    }
+    .js_message,
+    .noticeMsg {
+        margin: 2em 0 1em;
+        padding: 0.5em 1em;
+        background: #fff;
+        border: 3px solid silver;
+        .border-radius(5px);
+    }
+    .warning {
+        margin: 2em 0 1em;
+        padding: 0.5em 1em;
+        background: #fff;
+        border: 3px solid gray;
+        .border-radius(5px);
     }
 
     .posCounter {
@@ -502,16 +520,6 @@ html, body {
 }
 #js-index_list_tabs {
     display: none !important;
-}
-
-.js_message {
-    display: none;
-    margin: 1em 0;
-    padding: 1em;
-    font-size: 16/@baseFontSize;
-    font-weight: bold;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.7);
 }
 
 /**

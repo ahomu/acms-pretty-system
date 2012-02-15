@@ -23,13 +23,13 @@ AcmsAdmin = Davis(function() {
     /**
      * 通常のGET遷移
      */
-    this.get('/bid/:bid/admin/:path/', transitionPage);
-    this.get('/bid/:bid/cid/:cid/admin/:path/', transitionPage);
-    this.get('/bid/:bid/uid/:uid/admin/:path/', transitionPage);
-    this.get('/bid/:bid/tag/:tag/admin/:path/', transitionPage);
+    this.get('.*/bid/:bid/admin/:path/', transitionPage);
+    this.get('.*/bid/:bid/cid/:cid/admin/:path/', transitionPage);
+    this.get('.*/bid/:bid/uid/:uid/admin/:path/', transitionPage);
+    this.get('.*/bid/:bid/tag/:tag/admin/:path/', transitionPage);
 
-    this.get('/bid/:bid/eid/:eid/admin/:path/', transferPage);
-    this.get('/bid/:bid/cid/:cid/eid/:eid/admin/:path/', transferPage);
+    this.get('.*/bid/:bid/eid/:eid/admin/:path/', transferPage);
+    this.get('.*/bid/:bid/cid/:cid/eid/:eid/admin/:path/', transferPage);
 
     this.get(/.*/, function(req) {
         if (!req.isForPageLoad) {
@@ -113,10 +113,10 @@ AcmsAdmin = Davis(function() {
 jQuery(function() {
     var initPath;
 
+    activeNav(encodeURI(location.pathname)+encodeURI(location.search));
+
     location.pathname.match(/admin\/(\w+)/);
     initPath = RegExp.$1;
-
-    activeNav(initPath+encodeURI(location.search));
 
     main($('#main'), initPath);
 
@@ -193,9 +193,9 @@ function main($target, path) {
     // コンフィグ詳細に一覧に戻るリンクを作成
     if (path !== 'config_index' && path.indexOf('config') === 0) {
         if (location.search.indexOf('mid') === -1) {
-            $menugroup.prepend('<a class="button icon arrowleft" href="/bid/'+ACMS.Config.bid+'/admin/config_index/'+encodeURI(location.search)+'">コンフィグの一覧に戻る</a>');
+            $menugroup.prepend('<a class="button icon arrowleft" href="/'+ACMS.Config.offset+'bid/'+ACMS.Config.bid+'/admin/config_index/'+encodeURI(location.search)+'">コンフィグの一覧に戻る</a>');
         } else {
-            $menugroup.prepend('<a class="button icon arrowleft" href="/bid/'+ACMS.Config.bid+'/admin/module_index/">モジュールIDの一覧に戻る</a>');
+            $menugroup.prepend('<a class="button icon arrowleft" href="/'+ACMS.Config.offset+'bid/'+ACMS.Config.bid+'/admin/module_index/">モジュールIDの一覧に戻る</a>');
         }
     }
 
@@ -259,13 +259,13 @@ function main($target, path) {
         case 'schedule_edit':
         case 'moblog_edit':
             var edit = path.substr(0, path.indexOf('_')),
-                title = $target.find('.titleWrapper h2').first().text().replace(/[詳細|変更]+/, '');
+                title = $target.find('.titleWrapper h2').first().text().replace(/[詳細変更作成]+/, '');
 
             // (推定) 一覧ボタンを削除
             $target.find('.adminBtn').last().remove();
 
             // 一覧に戻るリンクを作成
-            $menugroup.prepend('<a class="button icon arrowleft" href="/bid/'+ACMS.Config.bid+'/admin/'+edit+'_index/">'+title+'の一覧に戻る</a>');
+            $menugroup.prepend('<a class="button icon arrowleft" href="/'+ACMS.Config.offset+'bid/'+ACMS.Config.bid+'/admin/'+edit+'_index/">'+title+'の一覧に戻る</a>');
         break;
     }
 }
