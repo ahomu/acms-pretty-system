@@ -1,6 +1,6 @@
 ##Usage
 
-J( 'ｰ`)し sysprettyテーマを継承すればいいのよ...
+J( 'ｰ`)し themesディレクトリに入れて、sysprettyを継承すればいいのよ...
 
 theme: yourtheme@syspretty
 

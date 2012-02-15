@@ -31,6 +31,12 @@ AcmsAdmin = Davis(function() {
     this.get('/bid/:bid/eid/:eid/admin/:path/', transferPage);
     this.get('/bid/:bid/cid/:cid/eid/:eid/admin/:path/', transferPage);
 
+    this.get(/.*/, function(req) {
+        if (!req.isForPageLoad) {
+            transferPage(req);
+        }
+    });
+
     /**
      * コンフィグ保存時のAjax処理
      */

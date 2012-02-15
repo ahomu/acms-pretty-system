@@ -46,7 +46,7 @@ http://github.com/necolas/css3-github-buttons
     text-decoration: none;
     text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
     color: #fff !important;
-    font-weight: bold;
+    /*font-weight: bold;*/
     background-color: #4f4545;
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4f4545), to(#332324));
     background-image: -moz-linear-gradient(#4f4545, #332324);
