@@ -225,18 +225,7 @@ function main($target, path) {
         case 'schedule_index':
             $temp = $target.find('.titleWrapper').last();
 
-            if ('entry_index' === path) {
-                // "カテゴリ"を消したい！
-                var entryAdd = $temp.next().find('form').get(0);
-
-//                while (entryAdd.firstChild.nodeType === 3) {
-//                    console.log('hoge');
-//                    entryAdd.removeChild(entryAdd.firstChild);
-//                }
-//                console.log(entryAdd.firstChild.nodeType);
-//                $temp.next().find('select').remove();
-            }
-            else if ('rule_index' === path || 'module_index' === path) {
+            if ('rule_index' === path || 'module_index' === path) {
                 // モジュールIDとルールの一覧で余分なデリミタ表記を除去
                 $lasttd.each(function() {
                     this.innerHTML = this.innerHTML.replace('/ ', '');
