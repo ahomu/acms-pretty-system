@@ -60,6 +60,11 @@ AcmsAdmin = Davis(function() {
         })
     });
 
+    /**
+     * URLの書き換えによる遷移
+     *
+     * @param req
+     */
     function transferPage(req) {
         location.href = req.fullPath;
     }
